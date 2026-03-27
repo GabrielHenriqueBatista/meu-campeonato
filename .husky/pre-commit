@@ -1,0 +1,50 @@
+#!/bin/sh
+
+echo "→ Iniciando validações pre-commit..."
+
+container_name="teste-irroba-laravel.test-1"
+
+if [ ! "$(docker ps -a -q -f name=${container_name})" ]; then
+    echo "Container não encontrado, pulando validações..."
+    exit 0
+fi
+
+sail_status=$(docker container inspect -f '{{.State.Status}}' $container_name)
+start_sail=0
+echo "Sail status: $sail_status"
+
+if [ "running" != "$sail_status" ]; then
+    echo "Subindo Sail..."
+    ./vendor/bin/sail up -d >/dev/null
+    start_sail=1
+    echo "Sail iniciado"
+fi
+
+echo "→ Rodando Pint..."
+./vendor/bin/sail exec -T laravel.test ./vendor/bin/pint --test
+if [ $? -ne 0 ]; then
+    echo "✗ Pint falhou. Rode './vendor/bin/sail exec laravel.test ./vendor/bin/pint' e tente novamente."
+    exit 1
+fi
+
+echo "→ Rodando Larastan..."
+./vendor/bin/sail exec -T laravel.test ./vendor/bin/phpstan analyse --memory-limit=512M
+if [ $? -ne 0 ]; then
+    echo "✗ Larastan falhou. Corrija os erros de tipagem e tente novamente."
+    exit 1
+fi
+
+echo "→ Rodando testes (Pest)..."
+./vendor/bin/sail artisan test
+if [ $? -ne 0 ]; then
+    echo "✗ Testes falharam. Corrija antes de commitar."
+    exit 1
+fi
+
+echo "✓ Tudo ok. Commit liberado."
+
+if [ 1 = $start_sail ]; then
+    echo "Parando Sail..."
+    ./vendor/bin/sail stop
+    echo "Sail parado"
+fi

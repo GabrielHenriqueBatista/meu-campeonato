@@ -1,0 +1,29 @@
+#!/bin/sh
+
+echo "→ Validando mensagem do commit..."
+
+container_name="teste-irroba-laravel.test-1"
+
+if [ ! "$(docker ps -a -q -f name=${container_name})" ]; then
+    echo "Container não encontrado, pulando validação..."
+    exit 0
+fi
+
+sail_status=$(docker container inspect -f '{{.State.Status}}' $container_name)
+start_sail=0
+echo "Sail status: $sail_status"
+
+if [ "running" != "$sail_status" ]; then
+    echo "Subindo Sail..."
+    ./vendor/bin/sail up -d >/dev/null
+    start_sail=1
+    echo "Sail iniciado"
+fi
+
+./vendor/bin/sail exec -T laravel.test npx --no -- commitlint --edit "$1"
+
+if [ 1 = $start_sail ]; then
+    echo "Parando Sail..."
+    ./vendor/bin/sail stop
+    echo "Sail parado"
+fi
