@@ -1,0 +1,11 @@
+- name: Instalar dependências
+  run: docker compose exec -T laravel.test composer install
+
+- name: Gerar APP_KEY
+  run: docker compose exec -T laravel.test php artisan key:generate
+
+- name: Rodar Pint
+  run: docker compose exec -T laravel.test ./vendor/bin/pint --test
+
+- name: Rodar PHPStan
+  run: docker compose exec -T laravel.test ./vendor/bin/phpstan analyse --memory-limit=1G
