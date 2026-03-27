@@ -1,0 +1,25 @@
+#!/bin/sh
+set -e
+
+echo "→ Rodando Pint..."
+./vendor/bin/pint --test
+if [ $? -ne 0 ]; then
+  echo "✗ Pint falhou. Rode './vendor/bin/pint' e tente novamente."
+  exit 1
+fi
+
+echo "→ Rodando Larastan..."
+./vendor/bin/phpstan analyse --memory-limit=512M
+if [ $? -ne 0 ]; then
+  echo "✗ Larastan falhou. Corrija os erros de tipagem e tente novamente."
+  exit 1
+fi
+
+echo "→ Rodando testes (Pest)..."
+./vendor/bin/pest --bail
+if [ $? -ne 0 ]; then
+  echo "✗ Testes falharam. Corrija antes de commitar."
+  exit 1
+fi
+
+echo "✓ Tudo ok. Commit liberado."
