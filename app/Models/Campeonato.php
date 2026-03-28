@@ -15,6 +15,10 @@ class Campeonato extends Model
         'status',
     ];
 
+    protected $attributes = [
+        'status' => 'pendente',
+    ];
+
     protected $casts = [
         'status' => 'string',
     ];
