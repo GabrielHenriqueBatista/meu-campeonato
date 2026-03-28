@@ -3,14 +3,15 @@
 namespace App\Services;
 
 use App\Models\Campeonato;
+use App\Models\CampeonatoTimePivot;
 use App\Models\Partida;
 use App\Models\Time;
 use Illuminate\Support\Facades\DB;
 
-class SimulacaoPartidaService
+readonly class SimulacaoPartidaService
 {
     public function __construct(
-        private readonly PlacarPythonService $placarPythonService,
+        private PlacarPythonService $placarPythonService,
     ) {
     }
 
@@ -85,12 +86,9 @@ class SimulacaoPartidaService
             : $visitante;
     }
 
-    /**
-     * @return object{pontuacao_total: int, gols_fora_de_casa: int, ordem_inscricao: int}
-     */
-    private function obterPivot(Campeonato $campeonato, Time $time): object
+    private function obterPivot(Campeonato $campeonato, Time $time): CampeonatoTimePivot
     {
-        /** @var object{pontuacao_total: int, gols_fora_de_casa: int, ordem_inscricao: int} */
+        /** @var CampeonatoTimePivot */
         return $campeonato->times()
             ->wherePivot('time_id', $time->id)
             ->firstOrFail()
@@ -102,19 +100,21 @@ class SimulacaoPartidaService
         int $golsMandante,
         int $golsVisitante,
     ): void {
-        /** @var Campeonato */
-        $campeonato = Campeonato::findOrFail($partida->campeonato_id);
-
         // Mandante: +gols marcados -gols sofridos
-        $campeonato->times()->updateExistingPivot($partida->time_mandante_id, [
-            'pontuacao_total'   => DB::raw("pontuacao_total + {$golsMandante} - {$golsVisitante}"),
-            'gols_fora_de_casa' => DB::raw('gols_fora_de_casa'),
-        ]);
+        \Illuminate\Support\Facades\DB::table('campeonato_time')
+            ->where('campeonato_id', $partida->campeonato_id)
+            ->where('time_id', $partida->time_mandante_id)
+            ->update([
+                'pontuacao_total' => DB::raw("pontuacao_total + {$golsMandante} - {$golsVisitante}"),
+            ]);
 
-        // Visitante: +gols marcados -gols sofridos + gols_fora_de_casa
-        $campeonato->times()->updateExistingPivot($partida->time_visitante_id, [
-            'pontuacao_total'   => DB::raw("pontuacao_total + {$golsVisitante} - {$golsMandante}"),
-            'gols_fora_de_casa' => DB::raw("gols_fora_de_casa + {$golsVisitante}"),
-        ]);
+        // Visitante: +gols marcados -gols sofridos + gols fora de casa
+        \Illuminate\Support\Facades\DB::table('campeonato_time')
+            ->where('campeonato_id', $partida->campeonato_id)
+            ->where('time_id', $partida->time_visitante_id)
+            ->update([
+                'pontuacao_total'   => DB::raw("pontuacao_total + {$golsVisitante} - {$golsMandante}"),
+                'gols_fora_de_casa' => DB::raw("gols_fora_de_casa + {$golsVisitante}"),
+            ]);
     }
 }
