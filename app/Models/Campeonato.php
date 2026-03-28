@@ -26,6 +26,7 @@ class Campeonato extends Model
     public function times(): BelongsToMany
     {
         return $this->belongsToMany(Time::class, 'campeonato_time', 'campeonato_id', 'time_id')
+            ->using(CampeonatoTimePivot::class)
             ->withPivot(['ordem_inscricao', 'pontuacao_total', 'gols_fora_de_casa'])
             ->orderBy('campeonato_time.ordem_inscricao')
             ->withTimestamps();
