@@ -10,6 +10,8 @@ use App\Http\Resources\TimeResource;
 use App\Models\Campeonato;
 use App\Models\Time;
 use App\Services\OrquestradorCampeonatoService;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CampeonatoController extends Controller
 {
@@ -69,5 +71,15 @@ class CampeonatoController extends Controller
             'message'    => 'Campeonato simulado com sucesso.',
             'campeonato' => new CampeonatoResource($campeonato->fresh(['times', 'partidas'])),
         ]);
+    }
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $campeonatos = Campeonato::query()
+            ->when($request->status, fn ($q, $status) => $q->where('status', $status))
+            ->withCount('times')
+            ->latest()
+            ->paginate(10);
+
+        return CampeonatoResource::collection($campeonatos);
     }
 }
