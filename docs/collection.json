@@ -1,0 +1,311 @@
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2026-03-29",
+    "__export_source": "insomnia",
+    "resources": [
+        {
+            "_id": "wrk_1",
+            "_type": "workspace",
+            "name": "Meu Campeonato API",
+            "description": "Collection completa da API Meu Campeonato"
+        },
+        {
+            "_id": "env_1",
+            "_type": "environment",
+            "parentId": "wrk_1",
+            "name": "Base Environment",
+            "data": {
+                "base_url": "http://localhost",
+                "campeonato_id": "1"
+            }
+        },
+        {
+            "_id": "fld_1",
+            "_type": "request_group",
+            "parentId": "wrk_1",
+            "name": "01 - Campeonatos"
+        },
+        {
+            "_id": "req_1",
+            "_type": "request",
+            "parentId": "fld_1",
+            "name": "Criar campeonato",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Campeonato do Bairro 2026\"\n}"
+            }
+        },
+        {
+            "_id": "req_2",
+            "_type": "request",
+            "parentId": "fld_1",
+            "name": "Listar campeonatos",
+            "method": "GET",
+            "url": "{{ _.base_url }}/api/campeonatos",
+            "headers": [
+                { "name": "Accept", "value": "application/json" }
+            ]
+        },
+        {
+            "_id": "req_3",
+            "_type": "request",
+            "parentId": "fld_1",
+            "name": "Listar campeonatos - filtro pendente",
+            "method": "GET",
+            "url": "{{ _.base_url }}/api/campeonatos?status=pendente",
+            "headers": [
+                { "name": "Accept", "value": "application/json" }
+            ]
+        },
+        {
+            "_id": "req_4",
+            "_type": "request",
+            "parentId": "fld_1",
+            "name": "Listar campeonatos - filtro finalizado",
+            "method": "GET",
+            "url": "{{ _.base_url }}/api/campeonatos?status=finalizado",
+            "headers": [
+                { "name": "Accept", "value": "application/json" }
+            ]
+        },
+        {
+            "_id": "req_5",
+            "_type": "request",
+            "parentId": "fld_1",
+            "name": "Detalhar campeonato",
+            "method": "GET",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}",
+            "headers": [
+                { "name": "Accept", "value": "application/json" }
+            ]
+        },
+        {
+            "_id": "fld_2",
+            "_type": "request_group",
+            "parentId": "wrk_1",
+            "name": "02 - Times"
+        },
+        {
+            "_id": "req_6",
+            "_type": "request",
+            "parentId": "fld_2",
+            "name": "Inscrever time 1 - Flamengo",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/times",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Flamengo\"\n}"
+            }
+        },
+        {
+            "_id": "req_7",
+            "_type": "request",
+            "parentId": "fld_2",
+            "name": "Inscrever time 2 - Vasco",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/times",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Vasco\"\n}"
+            }
+        },
+        {
+            "_id": "req_8",
+            "_type": "request",
+            "parentId": "fld_2",
+            "name": "Inscrever time 3 - Botafogo",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/times",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Botafogo\"\n}"
+            }
+        },
+        {
+            "_id": "req_9",
+            "_type": "request",
+            "parentId": "fld_2",
+            "name": "Inscrever time 4 - Fluminense",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/times",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Fluminense\"\n}"
+            }
+        },
+        {
+            "_id": "req_10",
+            "_type": "request",
+            "parentId": "fld_2",
+            "name": "Inscrever time 5 - Palmeiras",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/times",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Palmeiras\"\n}"
+            }
+        },
+        {
+            "_id": "req_11",
+            "_type": "request",
+            "parentId": "fld_2",
+            "name": "Inscrever time 6 - Corinthians",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/times",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Corinthians\"\n}"
+            }
+        },
+        {
+            "_id": "req_12",
+            "_type": "request",
+            "parentId": "fld_2",
+            "name": "Inscrever time 7 - São Paulo",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/times",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"São Paulo\"\n}"
+            }
+        },
+        {
+            "_id": "req_13",
+            "_type": "request",
+            "parentId": "fld_2",
+            "name": "Inscrever time 8 - Santos",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/times",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Santos\"\n}"
+            }
+        },
+        {
+            "_id": "req_14",
+            "_type": "request",
+            "parentId": "fld_2",
+            "name": "Inscrever 9º time (deve retornar 422)",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/times",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Grêmio\"\n}"
+            }
+        },
+        {
+            "_id": "fld_3",
+            "_type": "request_group",
+            "parentId": "wrk_1",
+            "name": "03 - Simulação"
+        },
+        {
+            "_id": "req_15",
+            "_type": "request",
+            "parentId": "fld_3",
+            "name": "Simular campeonato",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/simular",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": ""
+            }
+        },
+        {
+            "_id": "req_16",
+            "_type": "request",
+            "parentId": "fld_3",
+            "name": "Simular campeonato já finalizado (deve retornar 422)",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos/{{ _.campeonato_id }}/simular",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": ""
+            }
+        },
+        {
+            "_id": "fld_4",
+            "_type": "request_group",
+            "parentId": "wrk_1",
+            "name": "04 - Erros"
+        },
+        {
+            "_id": "req_17",
+            "_type": "request",
+            "parentId": "fld_4",
+            "name": "Campeonato inexistente (deve retornar 404)",
+            "method": "GET",
+            "url": "{{ _.base_url }}/api/campeonatos/999",
+            "headers": [
+                { "name": "Accept", "value": "application/json" }
+            ]
+        },
+        {
+            "_id": "req_18",
+            "_type": "request",
+            "parentId": "fld_4",
+            "name": "Criar campeonato sem nome (deve retornar 422)",
+            "method": "POST",
+            "url": "{{ _.base_url }}/api/campeonatos",
+            "headers": [
+                { "name": "Content-Type", "value": "application/json" },
+                { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+                "mimeType": "application/json",
+                "text": "{}"
+            }
+        }
+    ]
+}
