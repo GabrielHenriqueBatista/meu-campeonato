@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property-read CampeonatoTimePivot $pivot
+ */
 class Time extends Model
 {
     protected $table = 'times';
@@ -17,6 +20,7 @@ class Time extends Model
     public function campeonatos(): BelongsToMany
     {
         return $this->belongsToMany(Campeonato::class, 'campeonato_time', 'time_id', 'campeonato_id')
+            ->using(CampeonatoTimePivot::class)
             ->withPivot(['ordem_inscricao', 'pontuacao_total', 'gols_fora_de_casa'])
             ->withTimestamps();
     }
