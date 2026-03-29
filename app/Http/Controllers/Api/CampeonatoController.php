@@ -9,6 +9,7 @@ use App\Http\Resources\CampeonatoResource;
 use App\Http\Resources\TimeResource;
 use App\Models\Campeonato;
 use App\Models\Time;
+use App\Services\OrquestradorCampeonatoService;
 
 class CampeonatoController extends Controller
 {
@@ -47,5 +48,26 @@ class CampeonatoController extends Controller
         return (new TimeResource($time))
             ->response()
             ->setStatusCode(201);
+    }
+    public function simular(Campeonato $campeonato): \Illuminate\Http\JsonResponse
+    {
+        if ($campeonato->isFinalizado()) {
+            return response()->json([
+                'message' => 'Este campeonato já foi simulado.',
+            ], 422);
+        }
+
+        if ($campeonato->times()->count() !== 8) {
+            return response()->json([
+                'message' => 'O campeonato precisa ter exatamente 8 times inscritos para ser simulado.',
+            ], 422);
+        }
+
+        app(OrquestradorCampeonatoService::class)->executar($campeonato);
+
+        return response()->json([
+            'message'    => 'Campeonato simulado com sucesso.',
+            'campeonato' => new CampeonatoResource($campeonato->fresh(['times', 'partidas'])),
+        ]);
     }
 }

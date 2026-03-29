@@ -35,8 +35,8 @@ class PlacarPythonService
             throw new RuntimeException("Erro ao executar teste.py: {$erro}");
         }
 
-        $linhas = array_filter(explode("\n", trim($output)));
-        $linhas = array_values($linhas);
+        $linhas = explode("\n", trim($output));
+        $linhas = array_values(array_filter($linhas, fn ($linha) => $linha !== ''));
 
         if (count($linhas) !== 2) {
             throw new RuntimeException("Output inesperado do script Python: {$output}");
