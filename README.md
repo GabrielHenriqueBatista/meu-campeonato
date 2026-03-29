@@ -1,4 +1,4 @@
-# Meu Campeonato 🏆
+# Teste-Irroba 🏆
 
 Aplicação para simular campeonatos de futebol eliminatórios, desenvolvida com Laravel 13.
 
