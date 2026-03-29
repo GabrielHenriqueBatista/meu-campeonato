@@ -7,3 +7,4 @@ Route::post('/campeonatos', [CampeonatoController::class, 'store']);
 Route::post('/campeonatos/{campeonato}/times', [CampeonatoController::class, 'inscreverTime']);
 Route::post('/campeonatos/{campeonato}/simular', [CampeonatoController::class, 'simular']);
 Route::get('/campeonatos', [CampeonatoController::class, 'index']);
+Route::get('/campeonatos/{campeonato}', [CampeonatoController::class, 'show']);

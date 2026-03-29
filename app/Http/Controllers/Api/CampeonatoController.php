@@ -82,4 +82,14 @@ class CampeonatoController extends Controller
 
         return CampeonatoResource::collection($campeonatos);
     }
+    public function show(Campeonato $campeonato): CampeonatoResource
+    {
+        $campeonato->load([
+            'times',
+            'partidas.timeMandante',
+            'partidas.timeVisitante',
+            'partidas.timeVencedor',
+        ]);
+        return new CampeonatoResource($campeonato);
+    }
 }
