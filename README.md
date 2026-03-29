@@ -10,7 +10,7 @@ Aplicação para simular campeonatos de futebol eliminatórios, desenvolvida com
 - **Python 3.12** (geração de placares)
 - **Redis** (cache)
 - **Pest** (testes)
-- **Larastan** nível 8 (análise estática)
+- **Larastan** nível 5 (análise estática)
 - **Laravel Pint** PSR-12 (formatação)
 - **Husky** + **Commitlint** (hooks de commit)
 
