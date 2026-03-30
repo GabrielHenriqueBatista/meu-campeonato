@@ -295,3 +295,48 @@ docs: descrição
 A collection com todos os endpoints está disponível em `/docs/collection.json`.
 
 Importe o arquivo no Insomnia ou Postman e configure a variável de ambiente `base_url` como `http://localhost`.
+
+## Como testar com Postman
+
+A collection está disponível em `/docs/collection.json`.
+
+### Importar no Postman
+
+1. Abra o Postman
+2. Clique em **Import** no canto superior esquerdo
+3. Selecione o arquivo `/docs/collection.json`
+4. Clique em **Import**
+
+### Fluxo de teste
+
+Siga essa ordem para testar o fluxo completo:
+
+**1. Criar o campeonato**
+- Rode `POST /api/campeonatos`
+- Copie o `id` retornado
+- Atualize a variável `campeonato_id` na collection com esse `id`
+
+**2. Inscrever os 8 times em ordem**
+- Rode um por vez: Flamengo → Vasco → Botafogo → Fluminense → Palmeiras → Corinthians → São Paulo → Santos
+
+**3. Testar erro do 9º time**
+- Rode `Inscrever 9º time`
+- Deve retornar `422`
+
+**4. Simular o campeonato**
+- Rode `POST /api/campeonatos/{id}/simular`
+- Deve retornar `200` com status `finalizado`
+
+**5. Testar erro de simular novamente**
+- Rode `Simular campeonato já finalizado`
+- Deve retornar `422`
+
+**6. Ver o resultado**
+- Rode `GET /api/campeonatos/{id}`
+- Mostra partidas por fase e classificação final
+
+**7. Testar os erros**
+- `Campeonato inexistente` → deve retornar `404`
+- `Criar campeonato sem nome` → deve retornar `422`
+
+
