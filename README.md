@@ -27,8 +27,8 @@ Aplicação para simular campeonatos de futebol eliminatórios, desenvolvida com
 
 **1. Clonar o repositório:**
 ```bash
-git clone git@github.com:GabrielHenriqueBatista/teste-irroba.git
-cd teste-irroba
+git clone https://github.com/GabrielHenriqueBatista/meu-campeonato.git
+cd meu-campeonato
 ```
 
 **2. Copiar o arquivo de ambiente:**
